@@ -1,2 +1,2 @@
 #!/bin/bash 
-tr -c 'a' 'z' | tr -c 'c' 'e'
+tr [A:c] [Z:e]

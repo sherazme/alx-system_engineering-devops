@@ -1,0 +1,3 @@
+vim 18-letteronly
+i#!/bin/bash 
+grep '^[[:alpha:]]' /etc/ssh/sshd_config

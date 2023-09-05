@@ -1,3 +1,2 @@
-vim 18-letteronly
-i#!/bin/bash 
+#!/bin/bash 
 grep -i '^[a-z]' /etc/ssh/sshd_config

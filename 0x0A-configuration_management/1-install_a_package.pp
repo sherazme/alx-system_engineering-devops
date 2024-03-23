@@ -1,5 +1,5 @@
 # install flask
 
 exec { 'flask':
-  command => '/usr/bin/pip install flask -v 2.1.0',
+  command => '/usr/bin/pip3 install flask -v 2.1.0',
 }

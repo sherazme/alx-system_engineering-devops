@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 # Installs nginx
 
-sudo apt-get update
+sudo apt-get -y update
 sudo apt-get install -y nginx
+
+# Add custom header to know server name for debugging
+HOST_NAME=$(hostname)
+HEADER="\\\n\tadd_header X-Served-By $HOST_NAME;\n"
+FIND=$(grep "X-Server-by" /etc/nginx/sites-available/default)
+if [[ -z $FIND ]]; then
+    sed -i "23i $HEADER" /etc/nginx/sites-available/default
+fi
 
 # code to redirect a specific endpoint (eg: redirect /redirect_me to https://blog.ehoneahobed.com)
 echo "Hello World!" | sudo tee /var/www/html/index.html
@@ -14,13 +22,4 @@ echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
 string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
 sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
 
-# Add custom response header to know the server name for debugging
-HOST_NAME=$(hostname)
-HEADER="\\\n\tadd_header X-Served-By $HOST_NAME;\n"
-FIND=$(grep "X-Server-by" /etc/nginx/sites-available/default)
-if [[ -z $FIND ]]; then
-    sed -i "23i $HEADER" /etc/nginx/sites-available/default
-fi
-
-# restart the server
-sudo service nginx restart
+service nginx restart

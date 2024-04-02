@@ -12,17 +12,17 @@ if [[ -z $FIND ]]; then
     sed -i "23i $HEADER" /etc/nginx/sites-available/default
 fi
 
-# Create index.html page
+# Create a first index.html page
 echo "Hello World!" > /var/www/html/index.html
 
-# Add to nginx configuration file a redirection to another page
+# Add configuration to redirect to another page
 FIND=$(grep "redirect_me" /etc/nginx/sites-available/default)
 STRING="\\\n\tlocation /redirect_me {\n\t\t return 301 https://www.youtube.com/watch?v=3MbaGJN2ioQ;\n\t}\n"
 if [[ -z $FIND ]]; then
     sed -i "42i $STRING" /etc/nginx/sites-available/default
 fi
 
-# Add to nginx configuration file error page 404
+# Add configuration to error page 404
 FIND=$(grep "error_page 404" /etc/nginx/sites-available/default)
 ERROR="\\\n\terror_page 404 /custom_404.html;\n"
 if [[ -z $FIND ]]; then

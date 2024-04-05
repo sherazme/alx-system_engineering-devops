@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# Adisplay information about the subdomains
+
+# Check if at least one argument provided
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 domain [subdomain1 subdomain2 ...]"
+  exit 1
+fi
+
+# Set domain
+domain="$1"
+
+# Set subdomains
+sub=("www" "lb-01" "web-01" "web-02")
+
+# If additional subdomains provided as arguments, add them to subdomains array
+if [ $# -gt 1 ]; then
+  sub+=("${@:2}")
+fi
+
+# Loop subdomains array and display information
+for subdomain in "${subdomains[@]}"; do
+  output=$(dig "$sub.$domain" +short)
+  if [ -n "$output" ]; then
+    echo "The subdomain $subdomain has IP address $output"
+  else
+    echo "The subdomain $subdomain does not exist"
+  fi
+done
